@@ -40,6 +40,7 @@ Uses the files `autoencoder.py` and `train_autoencoder.py`
 
 1. **Extracting Latent Representations**
    - I use an autoencoder that combines a convolutional and a linear layer to compress the model to 32 dimensions. See `autoencoder.py`.
+   - Used MSE as a loss function, because the error is a continous difference between the reconstructed image and the original. 
 
 2. **Clustering Latent Representations**
    - **K-Means Clustering** is applied to the latent vectors instead of other clustering methods like density based DBSCAN because the number of clusters is known. 
