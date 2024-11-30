@@ -38,9 +38,6 @@ Uses the files `class_imbalance.py` and `test.py`.
 
 Uses the files `autoencoder.py` and `train_autoencoder.py`
 
-
-# Training and Clustering Latent Representations
-
 1. **Extracting Latent Representations**
 - I use an autoencoder that combines a convolutional and a linear layer to compress the model to 32 dimensions. See `autoencoder.py`.
 
