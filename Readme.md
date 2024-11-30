@@ -37,3 +37,22 @@ Uses the files `class_imbalance.py` and `test.py`.
 ## 3. Clustering Latent Representations
 
 Uses the files `autoencoder.py` and `train_autoencoder.py`
+
+
+# Training and Clustering Latent Representations
+
+1. **Extracting Latent Representations**
+- I use an autoencoder that combines a convolutional and a linear layer to compress the model to 32 dimensions. See `autoencoder.py`.
+
+2. **Clustering Latent Representations**
+- **K-Means Clustering** is applied to the latent vectors instead of other clustering methods like density based DBSCAN because the number of clusters is known. 
+
+3. **Evaluating Clustering**
+- **Silhouette Score** is calculated to measure the quality of clustering:
+  - A higher silhouette score indicates that points are well-separated from other clusters and closer to their own cluster center.
+
+4. **Visualizing the Latent Space**
+- Latent vectors are reduced to 2D using **t-SNE**, which works better for visualizing high-dimensional data in two dimensions than PCA, especially for complex, non-linear data like images.
+  - **Scatter Plots**:
+  - The first plot colors data points using true labels, showing how well latent representations align with ground truth.
+  - The second plot uses K-Means cluster assignments to visualize how the data was grouped.
