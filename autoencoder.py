@@ -24,16 +24,16 @@ class ClusteringAutoencoder(nn.Module):
         self.relu4 = nn.ReLU()
 
         
-        # Bottleneck (Latent Representation)
+        # Latent Representation
         self.flatten = nn.Flatten()
         self.fc1 = nn.Linear(128 * 26 * 26, 512)   # Compress to 512 features
-        self.fc2 = nn.Linear(512, self.latent_dim) # Compress to latent_dim (clustering space)
+        self.fc2 = nn.Linear(512, self.latent_dim) # Compress to latent_dim of clustering space
         
-        # Decoder (Linear Layers)
-        self.fc3 = nn.Linear(self.latent_dim, 512)          # Expand to 512 features
+        # Decoder 
+        self.fc3 = nn.Linear(self.latent_dim, 512)         # Expand to 512 features
         self.fc4 = nn.Linear(512, 128 * 26 * 26)           # Expand to match encoder's feature map size
         
-        # Decoder (Deconvolutional Layers)
+        # Deconvolutional Layers
         self.unflatten = nn.Unflatten(1, (128, 26, 26))
         self.deconv2 = nn.ConvTranspose2d(128, 64, kernel_size=3, stride=2, padding = 1, output_padding=1)   # 26x26 -> 52x52
         self.relu7 = nn.ReLU()
@@ -60,11 +60,9 @@ class ClusteringAutoencoder(nn.Module):
         x = self.fc1(x)
         latent = self.fc2(x)  # Clustering space
         
-        # Decoder (Linear Layers)
+        # Decoder 
         x = self.fc3(latent)
         x = self.fc4(x)
-        
-        # Decoder (Deconvolutional Layers)
         x = self.unflatten(x)
         x = self.deconv2(x)
         x = self.relu7(x)
@@ -79,22 +77,12 @@ class ClusteringAutoencoder(nn.Module):
 
 
 
-def train_autoencoder_with_clustering(model, dataloader, epochs, device, latent_dim, k_clusters=10):
-    """
-    Train the autoencoder and evaluate clustering using true labels.
-    
-    Args:
-        model (nn.Module): Autoencoder model.
-        dataloader (DataLoader): DataLoader for training data.
-        epochs (int): Number of training epochs.
-        device (torch.device): Device (CPU or GPU).
-        latent_dim (int): Dimension of the latent space.
-        k_clusters (int): Number of clusters for K-Means (default: 10).
-    """
+def train_autoencoder_with_clustering(model, dataloader, epochs, device, latent_dim, k_clusters=27):
+
     model = model.to(device)
     criterion = nn.MSELoss()
-    optimizer = optim.Adam(model.parameters(), lr=1e-3)
-
+    #optimizer = optim.Adam(model.parameters(), lr=1e-2)
+    optimizer = optim.SGD(model.parameters(), lr=0.00006, momentum=0.09, weight_decay=0.0001)
     for epoch in range(epochs):
         model.train()
         epoch_loss = 0.0
@@ -114,6 +102,7 @@ def train_autoencoder_with_clustering(model, dataloader, epochs, device, latent_
             # Backward pass and optimization
             optimizer.zero_grad()
             loss.backward()
+            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
             optimizer.step()
 
             # Accumulate loss and latent vectors

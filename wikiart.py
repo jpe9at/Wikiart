@@ -173,7 +173,7 @@ class CNNWikiArt(nn.Module):
         x = self.dropout(self.linear1(x))
         x = self.relu4(x)
         x = self.linear2(x)
-        #Since CEL expects logits we won't apply the softmax here.
+        #Since CEL expects logits no softmax applied here.
         #x = self.log_softmax(x)
 
         return x

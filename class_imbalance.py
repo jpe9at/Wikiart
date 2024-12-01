@@ -12,6 +12,7 @@ import torchvision.transforms.functional as F
 from torch.optim import Adam
 import tqdm
 
+import argparse
 from wikiart import WikiArtDataset, CNNWikiArt
 from TrainerWiki import Trainer
 
@@ -19,24 +20,34 @@ from sklearn.model_selection import StratifiedShuffleSplit
 from sklearn.utils.class_weight import compute_class_weight
 
 
-trainingdir = '/scratch/lt2326-2926-h24/wikiart/train'
 
+parser = argparse.ArgumentParser(description="Determine number of epochs.")
+parser.add_argument("--number", type=int, default = 10, help="The number to add.")
+parser.add_argument("--device", type=int, default = 0, help="The device number.")
 
-device = 2
+args = parser.parse_args()
+number_of_epochs = args.number
+
+device = args.device
 os.environ['CUDA_VISIBLE_DEVICES'] = str(device)
 deivce = torch.cuda.current_device()
 
 
 print("Running...")
 
+######################################################
+# Get training and validation data and set up methods 
+# against class imbalance
+######################################################
 
+trainingdir = '/scratch/lt2326-2926-h24/wikiart/train'
 dataset = WikiArtDataset(trainingdir, device)
 
 
 ### get minority labels
 labels = [label for _, label in dataset]
 tot_number_of_samples = len(labels)
-# Count occurrences of each class
+
 class_counts = Counter(labels)
 
 minority_labels = []
@@ -87,10 +98,13 @@ sampler = torch.utils.data.WeightedRandomSampler(
     replacement=True          # Allow resampling
 )
 
+#######################################
+# Initialise and train CNN
+#######################################
 
-cnn_class_imbalance = CNNWikiArt(300, output_size=num_of_labels, optimizer = 'Adam', learning_rate = 0.001, l2 = 0.0, loss_function = 'CEL', class_weights = class_weights).to(device)
+cnn_class_imbalance = CNNWikiArt(300, output_size=num_of_labels, optimizer = 'Adam', learning_rate = 0.0001, l2 = 0.0, loss_function = 'CEL', class_weights = class_weights).to(device)
 print(next(cnn_class_imbalance.parameters()).device)
-trainer = Trainer(max_epochs = 15, batch_size = 64, early_stopping_patience = 2, min_delta = 0.005, sampler = sampler )
+trainer = Trainer(max_epochs = number_of_epochs, batch_size = 32, early_stopping_patience = 4, min_delta = 0.0009, sampler = sampler )
 trainer.fit(cnn_class_imbalance,train_data,val_data)
 
 torch.save(cnn_class_imbalance.state_dict(),'wikiart_class_imbalance.pth')

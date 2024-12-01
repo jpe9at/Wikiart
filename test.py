@@ -15,7 +15,21 @@ import argparse
 
 import seaborn as sns
 
-device = 2
+##################################################
+# This file works with models 
+#     wikiart.pth and 
+#     wikiart_class_imbalance.pth
+# uncomment the respective line where the function is called.
+#################################################
+
+
+
+parser = argparse.ArgumentParser(description="Determine number of epochs.")
+parser.add_argument("--device", type=int, default = 0, help="The device number.")
+
+args = parser.parse_args()
+
+device = args.device
 os.environ['CUDA_VISIBLE_DEVICES'] = str(device)
 device = torch.cuda.current_device()
 
@@ -29,7 +43,7 @@ def test(modelfile=None, device="cpu"):
     loader = DataLoader(testingdataset, batch_size=1)
 
     model =  CNNWikiArt(300, output_size=27)
-    model.load_state_dict(torch.load(modelfile, weights_only=True))
+    model.load_state_dict(torch.load(modelfile, weights_only=True), strict = False)
     model = model.to(device)
     model.eval()
 
@@ -42,8 +56,6 @@ def test(modelfile=None, device="cpu"):
         predictions.append(torch.argmax(output).unsqueeze(dim=0))
         truth.append(y)
 
-    #print("predictions {}".format(predictions))
-    #print("truth {}".format(truth))
     predictions = torch.concat(predictions)
     truth = torch.concat(truth)
     metric = metrics.MulticlassAccuracy()
@@ -54,9 +66,9 @@ def test(modelfile=None, device="cpu"):
     confusion_matrix = confusion.compute().cpu().numpy()
     return confusion_matrix
 
-confusion_matrix = test(modelfile='wikiart.pth', device=device)
+#confusion_matrix = test(modelfile='wikiart.pth', device=device)
 
-#confusion_matrix = test(modelfile='wikiart_class_imbalance.pth', device=device)
+confusion_matrix = test(modelfile='wikiart_class_imbalance.pth', device=device)
 
 plt.figure(figsize=(12, 10))
 sns.heatmap(confusion_matrix, annot=True, fmt='g', cmap='Blues', cbar=False)
@@ -64,3 +76,4 @@ plt.title("Confusion Matrix")
 plt.xlabel("Predicted Labels")
 plt.ylabel("True Labels")
 plt.show()
+plt.savefig("confusion_matrix.png")

@@ -10,18 +10,23 @@ from sklearn.cluster import KMeans
 from wikiart import WikiArtDataset
 from torch.utils.data import DataLoader
 
+import argparse
 import numpy as np
 
-trainingdir = '/scratch/lt2326-2926-h24/wikiart/train'
-device = 2
+parser = argparse.ArgumentParser(description="Determine number of epochs.")
+parser.add_argument("--number", type=int, default = 10, help="The number to add.")
+parser.add_argument("--device", type=int, default = 0, help="The device number.")
 
+args = parser.parse_args()
+number_of_epochs = args.number
+
+device = args.device
 os.environ['CUDA_VISIBLE_DEVICES'] = str(device)
 device = torch.cuda.current_device()
 
 
-
+trainingdir = '/scratch/lt2326-2926-h24/wikiart/train'
 traindataset = WikiArtDataset(trainingdir, device)
-#testingdataset = WikiArtDataset(testingdir, device)
 
 latent_dim = 32  # Latent space dimensionality for clustering
 k_clusters = 27  # Number of clusters
@@ -34,7 +39,7 @@ dataloader = DataLoader(traindataset, batch_size=64, shuffle = True)
 wiki_art_autoencoder, cluster_centers = train_autoencoder_with_clustering(
     model=wiki_art_autoencoder,
     dataloader=dataloader,
-    epochs=10,
+    epochs=number_of_epochs,
     device=device,
     latent_dim=latent_dim,
     k_clusters=k_clusters
@@ -71,13 +76,15 @@ print(f"Silhouette Score: {silhouette}")
 latent_2d = TSNE(n_components=2, random_state=42).fit_transform(latent_vectors.numpy())
 
 # Scatter plot with true labels
+plt.figure(figsize=(10, 6))
 plt.scatter(latent_2d[:, 0], latent_2d[:, 1], c=all_labels, cmap='viridis', s=5)
 plt.colorbar(label='True Labels')
 plt.title('Latent Space Visualization with True Labels')
-plt.show()
+plt.savefig('true_labels.png')
 
 # Scatter plot with cluster assignments
+plt.figure(figsize=(10, 6))
 plt.scatter(latent_2d[:, 0], latent_2d[:, 1], c=cluster_assignments, cmap='viridis', s=5)
 plt.colorbar(label='Cluster Assignments')
 plt.title('Latent Space Visualization with Cluster Assignments')
-plt.show()
+plt.savefig('cluster_assignments.png')
