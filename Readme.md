@@ -14,8 +14,8 @@ The previous model lacked **non-linearity** after the convolutional layer and wa
 Improvements Implemented:
    - Added two further convolutional layer (taken from the Thai OCR model)
    - Added activation functions (e.g., ReLU) after each convolutional layer for more non-linearity.                                                  
-   - Attempt one: Used SGD and a very low learning rate (0.0001) and implemented a **very rigorous** early stopping monitor (no stopping after one epoch of no improvements), plus no l2 regularisation. Ended up only training for one epoch, but: **Improved accuracy is now at 8.4 percent!**
-   - Attempt two: Used SGD and an even lower learning rate of 0.00006 and l2 regularisation of 0.001. Trained for 20 epochs, but convergence was not yet reacherd. **Improved accuracy is now at 5.8 percent!**
+   - Attempt one: Used SGD and a very low learning rate (0.0001) and implemented a **very rigorous** early stopping monitor (stopping after one epoch of no improvements), plus no l2 regularisation. Ended up only training for one epoch, but: Improved accuracy is now at **8.4 percent!**
+   - Attempt two: Used SGD and an even lower learning rate of 0.00006 and l2 regularisation of 0.001. Trained for 20 epochs, but convergence was not yet reacherd. Improved accuracy is now at **5.8 percent!**
 
 ## 2. Strategies to Handle Class Imbalance:
 
@@ -34,19 +34,17 @@ Uses the files `class_imbalance.py` and `test.py`.
      - A `WeightedRandomSampler` is used to generate a balanced batch by assigning higher sampling weights to minority class instances.
 
 4. **Measure 4: Use of Focal Loss**
-     - I also tried to implement a focal loss function. The \textbf{Focal Loss} for the $i$-th sample is given by:
+     - I also tried to implement a focal loss function. The **Focal Loss** for the $i$-th sample is given by:
 
-         $\text{FL}_i = -\alpha (1 - p_{t,i})^\gamma \log(p_{t,i})$,
+       $$
+       \text{FL}_i = -\alpha (1 - p_{i})^\gamma \log(p_{i}),
+       $$
+
       where:
-\begin{itemize}
-\item $p_{t,i}$ is the probability of sample $i$ for label $t$
-    \item $\alpha$: A weighting factor for class imbalance.
-    \item $\gamma$: A focusing parameter that down-weights easy examples ($p_{t,i}$ close to 1).
-\end{itemize}
-     -
-     -
-     -    which you can stil find defined as a class and selectable as an option to select in the model init, but it consequently lead to overflow. 
-     - As the overflow still occured after several regulatory measures (like gradient clipping) I abandoned this attempt.  
+         - $p_{i}$ is the probability of sample $i$ for the true label
+         - $\alpha$: A weighting factor for class imbalance.
+         - $\gamma$: A focusing parameter that down-weights easy examples ($p_{t,i}$ close to 1).
+     - As overflow occurred and still occured after several regulatory measures (like clamping the loss function and using gradient clipping) I abandoned this attempt.  
 
 ## 3. Clustering Latent Representations
 
