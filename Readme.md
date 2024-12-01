@@ -50,18 +50,11 @@ Uses the files `autoencoder.py` and `train_autoencoder.py`
    - **Silhouette Score** is calculated to measure the quality of clustering.
    - For a single data point $i$:
 
-      - \( a(i) \): The average distance of \( i \) to all other points in the same cluster (intra-cluster distance).
-      - \( b(i) \): The average distance of \( i \) to all points in the nearest neighboring cluster (inter-cluster distance).
+      - $a(i)$: The average distance of $i$ to all other points in the same cluster (intra-cluster distance).
+      - $b(i)$: The average distance of $i$ to all points in the nearest neighboring cluster (inter-cluster distance).
 
-      The silhouette score for point \( i \) is defined as:
-
-         \[
-            s(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))}
-         \]
-
-      where:
-
-      - \( s(i) \) ranges from \(-1\) to \(1\):
+      The silhouette score for point $i$ is defined as: $s(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))}$,
+      where $s(i)$ ranges from -1 to 1.
 
    - The overall silhouette score for a clustering solution is the mean \( s(i) \) across all data points. A higher silhouette score indicates that points are well-separated from other clusters and closer to their own cluster center. Final value: 0.5183, which means there is moderate cluster building, but also some overlap between the clusters. 
 
