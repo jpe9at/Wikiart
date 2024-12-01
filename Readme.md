@@ -29,6 +29,7 @@ Uses the files `class_imbalance.py` and `test.py`.
 1. **Measure 1: Data Augmentation for Minority Classes**
    - I used data augmentation to create additional, varied examples of the minority classes.
    - I implemented horizontal flipping, random rotation, and cropping.
+   - As part of this, the `WikiartDataset` class was augmented with an optional argument, which takes a list of minority classes and applied the data augmentation to those when calling the `__getitem__` method. 
 
 2. **Measure 2: Class Weights in the Loss Function**
    - I use class weights adjusted to the loss function to give more importance to minority classes. 
