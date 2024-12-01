@@ -53,7 +53,7 @@ Uses the files `class_imbalance.py` and `test.py`.
 
 It is surprising to me that using the same hyperparameters as the improved training where the imbalance is left untreated leads to a worse performance of about **3 percent**.
 
-Eve worse, however, is the performance that the model has when default parameters are used (Adam optimizer with a lr of 0.0001 and no l2 regularisation). 
+Eve worse, however, is the performance that the model has when default parameters are used (Adam optimizer with a lr of 0.001 and no l2 regularisation). 
 
 
 ## 3. Clustering Latent Representations
@@ -80,10 +80,13 @@ Uses the files `autoencoder.py` and `train_autoencoder.py`
       The silhouette score for point $i$ is defined as: $s(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))}$,
       where $s(i)$ ranges from -1 to 1.
 
-   - The overall silhouette score for a clustering solution is the mean $s(i)$ across all data points. A higher silhouette score indicates that points are well-separated from other clusters and closer to their own cluster center. Final value: 0.5183, which means there is moderate cluster building, but also some overlap between the clusters. 
+   - The overall silhouette score for a clustering solution is the mean $s(i)$ across all data points. A higher silhouette score indicates that points are well-separated from other clusters and closer to their own cluster center. Final value: 0.03183, which means there is almost no cluster building amongst the representations.
 
 4. **Visualizing the Latent Space**
    - Latent vectors are reduced to 2D using **t-SNE**, which works better for visualizing high-dimensional data in two dimensions than PCA, especially for complex, non-linear data like images.
    - **Scatter Plots**:
    - The first plot colors data points using true labels, showing how well latent representations align with ground truth.
    - The second plot uses K-Means cluster assignments to visualize how the data was grouped.
+
+I trained the model with the same hyperparameters as before, SGD with learning rate of 0.00006 and l2 = 0.001. The true files `true_labels` and `cluster_assignments` show a representation of the test data given their true labels and their assigned clusters, respectively. It is very visible that the model does not cluster well. 
+
