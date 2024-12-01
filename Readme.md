@@ -1,3 +1,7 @@
+For the programs `improved_train.py`, `class_imbalance.py`, and `train_autoencoder.py` you can determine the number of epochs by the optional command --number and the 
+number of the device by the optional command --device
+
+
 ## 1. Improving Performance of the Old Model
 
 Uses the files `improved_train.py` and `test.py` 
@@ -56,7 +60,7 @@ Uses the files `autoencoder.py` and `train_autoencoder.py`
       The silhouette score for point $i$ is defined as: $s(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))}$,
       where $s(i)$ ranges from -1 to 1.
 
-   - The overall silhouette score for a clustering solution is the mean \( s(i) \) across all data points. A higher silhouette score indicates that points are well-separated from other clusters and closer to their own cluster center. Final value: 0.5183, which means there is moderate cluster building, but also some overlap between the clusters. 
+   - The overall silhouette score for a clustering solution is the mean $s(i)$ across all data points. A higher silhouette score indicates that points are well-separated from other clusters and closer to their own cluster center. Final value: 0.5183, which means there is moderate cluster building, but also some overlap between the clusters. 
 
 4. **Visualizing the Latent Space**
    - Latent vectors are reduced to 2D using **t-SNE**, which works better for visualizing high-dimensional data in two dimensions than PCA, especially for complex, non-linear data like images.
