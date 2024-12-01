@@ -51,6 +51,11 @@ Uses the files `class_imbalance.py` and `test.py`.
 
    - As overflow occurred and still occured after several regulatory measures (like clamping the loss function and using gradient clipping) I abandoned this attempt.  
 
+It is surprising to me that using the same hyperparameters as the improved training where the imbalance is left untreated leads to a worse performance of about **3 percent**.
+
+Eve worse, however, is the performance that the model has when default parameters are used (Adam optimizer with a lr of 0.0001 and no l2 regularisation). 
+
+
 ## 3. Clustering Latent Representations
 
 Uses the files `autoencoder.py` and `train_autoencoder.py`
