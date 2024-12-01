@@ -10,7 +10,8 @@ The previous model lacked **non-linearity** after the convolutional layer and wa
 Improvements Implemented:
    - Added two further convolutional layer (taken from the Thai OCR model)
    - Added activation functions (e.g., ReLU) after each convolutional layer for more non-linearity.                                                  
-   - Used a very low learning rate and implemented a **very rigorous** early stopping monitor.
+   - Used a very low learning rate (0.00006) and implemented a **very rigorous** early stopping monitor (no stopping after a single epoch of no improvements), plus an l2 regularisation of 0.001. 
+   - Ended up only training for one epoch, but: 
 
 **Improved accuracy is now at 8.4 percent!**
 
@@ -31,7 +32,7 @@ Uses the files `class_imbalance.py` and `test.py`.
      - A `WeightedRandomSampler` is used to generate a balanced batch by assigning higher sampling weights to minority class instances.
 
 4. **Measure 4: Use of Focal Loss**
-     - I also tried to implement a focal loss function, which you can stil find  as an option to select in the model constitution, but it consequently lead to overflow. 
+     - I also tried to implement a focal loss function, which you can stil find defined as a class and selectable as an option to select in the model init, but it consequently lead to overflow. 
      - As the overflow still occured after several regulatory measures (like gradient clipping) I abandoned this attempt.  
 
 ## 3. Clustering Latent Representations
@@ -46,8 +47,20 @@ Uses the files `autoencoder.py` and `train_autoencoder.py`
    - **K-Means Clustering** is applied to the latent vectors instead of other clustering methods like density based DBSCAN because the number of clusters is known. 
 
 3. **Evaluating Clustering**
-   - **Silhouette Score** is calculated to measure the quality of clustering:
-   - A higher silhouette score indicates that points are well-separated from other clusters and closer to their own cluster center.
+   - **Silhouette Score** is calculated to measure the quality of clustering.
+   - For a single data point \( i \):
+\begin{itemize}
+    \item \( a(i) \): The average distance of \( i \) to all other points in the same cluster (intra-cluster distance).
+    \item \( b(i) \): The average distance of \( i \) to all points in the nearest neighboring cluster (inter-cluster distance).
+\end{itemize}
+
+The silhouette score for point \( i \) is defined as:
+\[
+s(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))}
+\]
+
+  
+   - A higher silhouette score indicates that points are well-separated from other clusters and closer to their own cluster center. Final value: 0.5183, which means there is moderate cluster building, but also some overlap between the clusters. 
 
 4. **Visualizing the Latent Space**
    - Latent vectors are reduced to 2D using **t-SNE**, which works better for visualizing high-dimensional data in two dimensions than PCA, especially for complex, non-linear data like images.
