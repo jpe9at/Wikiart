@@ -42,14 +42,12 @@ Uses the files `class_imbalance.py` and `test.py`.
 4. **Measure 4: Use of Focal Loss**
      - I also tried to implement a focal loss function. The **Focal Loss** for the $i$-th sample is given by:
 
-       $$
-       \text{FL}_i = -\alpha (1 - p_{i})^\gamma \log(p_{i}),
-       $$
+       $\text{FL}_i = -\alpha (1 - p_{i})^\gamma \log(p_{i}),$
 
       where:
-         - $p_{i}$ is the probability of sample $i$ for the true label
-         - $\alpha$: A weighting factor for class imbalance.
-         - $\gamma$: A focusing parameter that down-weights easy examples ($p_{t,i}$ close to 1).
+        - $p_{i}$ is the probability of sample $i$ for the true label
+        - $\alpha$: A weighting factor for class imbalance.
+        - $\gamma$: A focusing parameter that down-weights easy examples ($p_{t,i}$ close to 1).
      - As overflow occurred and still occured after several regulatory measures (like clamping the loss function and using gradient clipping) I abandoned this attempt.  
 
 ## 3. Clustering Latent Representations
