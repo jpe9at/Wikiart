@@ -48,7 +48,7 @@ Uses the files `autoencoder.py` and `train_autoencoder.py`
 
 3. **Evaluating Clustering**
    - **Silhouette Score** is calculated to measure the quality of clustering.
-   - For a single data point \( i \):
+   - For a single data point $i$:
 
       - \( a(i) \): The average distance of \( i \) to all other points in the same cluster (intra-cluster distance).
       - \( b(i) \): The average distance of \( i \) to all points in the nearest neighboring cluster (inter-cluster distance).
