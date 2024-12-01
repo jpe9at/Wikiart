@@ -89,5 +89,5 @@ Uses the files `autoencoder.py` and `train_autoencoder.py`, where the first one 
    - The first plot colors data points using true labels, showing how well latent representations align with ground truth.
    - The second plot uses K-Means cluster assignments to visualize how the data was grouped.
 
-I trained the model with the same hyperparameters as before, SGD with learning rate of 0.00006 and l2 = 0.001. The true files `true_labels` and `cluster_assignments` show a representation of the test data given their true labels and their assigned clusters, respectively. It is very visible that the model does not cluster well. 
+I trained the model with the same hyperparameters as before, SGD with learning rate of 0.00006 and l2 = 0.001. The two files `true_labels` and `cluster_assignments` show a representation of the test data given their true labels and their assigned clusters, respectively. It is very visible that the model does not cluster well. 
 
