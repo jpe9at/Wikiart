@@ -1,5 +1,10 @@
-For the programs `improved_train.py`, `class_imbalance.py`, and `train_autoencoder.py` you can determine the number of epochs by the optional command --number and the 
-number of the device by the optional command --device
+For the programs `improved_train.py`, `class_imbalance.py`, and `train_autoencoder.py` you can determine the number of epochs by the optional command 
+
+--number 
+
+and the number of the device by the optional command 
+
+--device
 
 
 ## 1. Improving Performance of the Old Model
