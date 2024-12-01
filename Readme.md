@@ -60,7 +60,10 @@ Uses the files `autoencoder.py` and `train_autoencoder.py`
    - Used MSE as a loss function, because the error is a continous difference between the reconstructed image and the original. 
 
 2. **Clustering Latent Representations**
-   - **K-Means Clustering** is applied to the latent vectors instead of other clustering methods like density based DBSCAN because the number of clusters is known. 
+   - **K-Means Clustering** is applied to the latent vectors instead of other clustering methods like density based DBSCAN because the number of clusters is known.
+   - During Training, I report two scores that compare the cluster labels with the true labels of the samples. 
+      - Adjusted Rand Index (ARI), which takes vales between -1 and 1, where 0 indicates random clustering
+      - Normlaised Mutual Information (NMI), which takes values between 0 and 1, where 1 indicated perfect correlations and 0 indicates no correlations. 
 
 3. **Evaluating Clustering**
    - **Silhouette Score** is calculated to measure the quality of clustering.
