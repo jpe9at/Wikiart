@@ -34,7 +34,18 @@ Uses the files `class_imbalance.py` and `test.py`.
      - A `WeightedRandomSampler` is used to generate a balanced batch by assigning higher sampling weights to minority class instances.
 
 4. **Measure 4: Use of Focal Loss**
-     - I also tried to implement a focal loss function, which you can stil find defined as a class and selectable as an option to select in the model init, but it consequently lead to overflow. 
+     - I also tried to implement a focal loss function. The \textbf{Focal Loss} for the $i$-th sample is given by:
+
+         $\text{FL}_i = -\alpha (1 - p_{t,i})^\gamma \log(p_{t,i})$,
+      where:
+\begin{itemize}
+\item $p_{t,i}$ is the probability of sample $i$ for label $t$
+    \item $\alpha$: A weighting factor for class imbalance.
+    \item $\gamma$: A focusing parameter that down-weights easy examples ($p_{t,i}$ close to 1).
+\end{itemize}
+     -
+     -
+     -    which you can stil find defined as a class and selectable as an option to select in the model init, but it consequently lead to overflow. 
      - As the overflow still occured after several regulatory measures (like gradient clipping) I abandoned this attempt.  
 
 ## 3. Clustering Latent Representations
@@ -42,7 +53,7 @@ Uses the files `class_imbalance.py` and `test.py`.
 Uses the files `autoencoder.py` and `train_autoencoder.py`
 
 1. **Extracting Latent Representations**
-   - I use an autoencoder that combines a convolutional and a linear layer to compress the model to 32 dimensions. See `autoencoder.py`.
+   - I use an autoencoder that combines convolutional and linear layers to compress the model to 32 dimensions. See `autoencoder.py`.
    - Used MSE as a loss function, because the error is a continous difference between the reconstructed image and the original. 
 
 2. **Clustering Latent Representations**
