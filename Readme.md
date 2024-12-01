@@ -9,7 +9,7 @@ and the number of the device by the optional command
 
 ## 1. Improving Performance of the Old Model
 
-Uses the files `improved_train.py` and `test.py` 
+Uses the files `improved_train.py` and `test.py` as well as `wikiart.py` and `TrainerWiki.py` which contain the model and the trainer class respectively. 
 
 
 **Issue with the Previous Model:**
@@ -24,7 +24,8 @@ Improvements Implemented:
 
 ## 2. Strategies to Handle Class Imbalance:
 
-Uses the files `class_imbalance.py` and `test.py`.
+Uses the files `class_imbalance.py` and `test.py` as well as `wikiart.py` and `TrainerWiki.py` which contain the model and the trainer class respectively. 
+
 
 1. **Measure 1: Data Augmentation for Minority Classes**
    - I used data augmentation to create additional, varied examples of the minority classes.
@@ -58,7 +59,7 @@ Eve worse, however, is the performance that the model has when default parameter
 
 ## 3. Clustering Latent Representations
 
-Uses the files `autoencoder.py` and `train_autoencoder.py`
+Uses the files `autoencoder.py` and `train_autoencoder.py`, where the first one contains the model and the training function. 
 
 1. **Extracting Latent Representations**
    - I use an autoencoder that combines convolutional and linear layers to compress the model to 32 dimensions. See `autoencoder.py`.
