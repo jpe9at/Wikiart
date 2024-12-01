@@ -19,7 +19,7 @@ The previous model lacked **non-linearity** after the convolutional layer and wa
 Improvements Implemented:
    - Added two further convolutional layer (taken from the Thai OCR model)
    - Added activation functions (e.g., ReLU) after each convolutional layer for more non-linearity.                                                  
-   - Attempt one: Used SGD and a very low learning rate (0.0001) and implemented a **very rigorous** early stopping monitor (stopping after one epoch of no improvements), plus no l2 regularisation. Ended up only training for one epoch, but: Improved accuracy is now at **8.4 percent!**
+   - Attempt one: Used SGD and a very low learning rate (0.0001) and implemented a **very rigorous** early stopping monitor (stopping after one epoch of no improvements), plus no l2 regularisation. Ended up only training for one epoch, but: Improved accuracy is now at **8.4 percent!** But since training for one epoch can hardly be called training, I started another attempt.  
    - Attempt two: Used SGD and an even lower learning rate of 0.00006 and l2 regularisation of 0.001. Trained for 20 epochs, but convergence was not yet reacherd. Improved accuracy is now at **5.8 percent!**
 
 ## 2. Strategies to Handle Class Imbalance:
